@@ -7,7 +7,7 @@ en sistemas de riego mediante análisis climático, cálculos agronómicos y rec
 Cypher
 # Integrantes
 Nelvy Sanabria Gonzales.
-Maria Rene Rocha Orti.
+Maria Rene Rocha Ortiz
 
 
 
