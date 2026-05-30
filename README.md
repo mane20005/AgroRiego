@@ -6,7 +6,8 @@ en sistemas de riego mediante análisis climático, cálculos agronómicos y rec
 # Equipo
 Cypher
 # Integrantes
-Nelvy Sanabria Gonzales 
-Maria Rene Rocha Ortiz
+Nelvy Sanabria Gonzales.
+Maria Rene Rocha Orti.
+
 
 
