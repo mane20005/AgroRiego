@@ -8,6 +8,6 @@ Cypher
 # Integrantes
 Nelvy Sanabria Gonzales.
 Maria Rene Rocha Ortiz
-
+Adan Adaly Torrico Mamani
 
 
