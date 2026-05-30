@@ -1,0 +1,85 @@
+import sqlite3
+
+# Conectar a la base de datos
+conn = sqlite3.connect("agricultura.db")
+cursor = conn.cursor()
+
+# Crear tablas
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    correo TEXT UNIQUE NOT NULL
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Parcelas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER NOT NULL,
+    nombre_parcela TEXT NOT NULL,
+    hectareas REAL NOT NULL,
+    tipo_riego TEXT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Cultivos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    parcela_id INTEGER NOT NULL,
+    tipo_cultivo TEXT NOT NULL,
+    fecha_siembra TEXT NOT NULL,
+    FOREIGN KEY (parcela_id) REFERENCES Parcelas(id)
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Riegos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    parcela_id INTEGER NOT NULL,
+    fecha_riego TEXT NOT NULL,
+    hora_riego TEXT NOT NULL,
+    FOREIGN KEY (parcela_id) REFERENCES Parcelas(id)
+)
+""")
+
+# Crear un usuario de prueba si no existe
+cursor.execute("""
+INSERT OR IGNORE INTO Usuarios (id, nombre, correo)
+VALUES (1, 'Agricultor Demo', 'demo@email.com')
+""")
+
+# Formulario por consola
+print("=== REGISTRO DE PARCELA ===")
+
+nombre_parcela = input("Nombre de parcela: ")
+tipo_cultivo = input("Tipo de cultivo: ")
+fecha_siembra = input("Fecha de siembra (AAAA-MM-DD): ")
+tipo_riego = input("Tipo de riego: ")
+hectareas = float(input("Área en hectáreas: "))
+
+usuario_id = 1
+
+# Guardar parcela
+cursor.execute("""
+INSERT INTO Parcelas
+(usuario_id, nombre_parcela, hectareas, tipo_riego)
+VALUES (?, ?, ?, ?)
+""", (usuario_id, nombre_parcela, hectareas, tipo_riego))
+
+parcela_id = cursor.lastrowid
+
+# Guardar cultivo
+cursor.execute("""
+INSERT INTO Cultivos
+(parcela_id, tipo_cultivo, fecha_siembra)
+VALUES (?, ?, ?)
+""", (parcela_id, tipo_cultivo, fecha_siembra))
+
+conn.commit()
+
+print("\n✅ Parcela registrada correctamente")
+print(f"ID de parcela: {parcela_id}")
+
+conn.close()
